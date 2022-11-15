@@ -1,0 +1,60 @@
+server:
+  port: 7438
+
+logging:
+  level:
+    com.backbase: INFO
+
+spring:
+  jackson:
+    default-property-inclusion: non_empty
+  liquibase:
+    enabled: true
+  jpa:
+    generate-ddl: false
+  datasource:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:com.mysql.jdbc.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/scheduled_payment_order?useSSL=false}
+
+# API Registry client configuration
+eureka:
+  instance:
+    hostname: localhost
+    preferIpAddress: false
+    appname: ${spring.application.name}
+    healthCheckUrlPath: /actuator/health
+    statusPageUrlPath: /actuator/info
+    nonSecurePort: ${server.port}
+    metadata-map:
+      public: true
+      role: live
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/registry/eureka/
+
+# Configure Internal JWT handler
+sso:
+  jwt:
+    internal:
+      signature:
+        key:
+          type: ENV
+          value: SIG_SECRET_KEY
+
+# Spring health monitoring
+management:
+  health:
+    jms:
+     enabled: false
+
+scheduled-payments:
+  execution-date-validation:
+    restricted-dates-resolution-strategy: PROPERTIES_BASED # Choice between PROPERTIES_BASED (default) or EXTERNAL
+    weekend-execution-strategy: RESCHEDULE # Choice between RESCHEDULE or ALLOW
+    restricted-dates:
+      - eventName: Thanksgiving
+        date: 2022-11-24
+      - eventName: Christmas Day
+        date: 2022-12-25
