@@ -42,6 +42,9 @@
             <column name="error_description" type="VARCHAR(105)">
                 <constraints nullable="true" />
             </column>
+            <column name="additions" type="VARCHAR(500)">
+                <constraints nullable="true" />
+            </column>
         </createTable>
         <addAutoIncrement columnDataType="BIGINT" tableName="sch_pmt_txn" columnName="id" startWith="1" />
     </changeSet>

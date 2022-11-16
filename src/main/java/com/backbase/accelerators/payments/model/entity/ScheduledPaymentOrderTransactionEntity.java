@@ -52,4 +52,8 @@ public class ScheduledPaymentOrderTransactionEntity {
     @Size(max = 105)
     @Column(name = "error_description")
     private String errorDescription;
+
+    @Size(max = 500)
+    @Column(name = "additions")
+    private String additions;
 }
